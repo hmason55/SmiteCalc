@@ -1,0 +1,22 @@
+﻿@namespace SmiteCalc.Components
+
+@Component
+
+@code {
+    public RenderFragment Component => __builder =>
+    {
+        <div class="pane grid-cell" @onclick=@(() => OnClick())>
+            <img src=@IconUrl />
+            <!-- <span class="align-self-center label">//@Name</span> -->
+        </div>
+    };
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public string IconUrl { get; set; }
+
+    [Parameter]
+    public Action OnClick { get; set; } = () => { };
+}

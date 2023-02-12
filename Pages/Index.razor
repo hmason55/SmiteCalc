@@ -1,7 +1,56 @@
-﻿@page "/"
+﻿@using SmiteCalc.Models
+@using SmiteCalc.Components
+@using Newtonsoft.Json
+@using System.Diagnostics;
+@inject HttpClient Http
+
+@page "/"
 
 <h1>Hello, world!</h1>
 
 <div>
     <button class="btn btn-primary">Button!</button>
 </div>
+
+<div class="flex-wrap p-1 pane">
+    @foreach (Item item in loadout)
+    {
+        <GridCell 
+            Name=@item.Name
+            IconUrl=@item.IconUrl
+            OnClick=@(() => { loadout.Remove(item); StateHasChanged(); } )
+            />
+    }
+</div>
+
+<hr />
+
+@if (items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="flex-wrap p-1 pane">
+        @foreach (Item item in items)
+        {
+            <GridCell
+                Name=@item.Name
+                IconUrl=@item.IconUrl
+                OnClick=@(() => { if(!loadout.Contains(item)) { loadout.Add(item); StateHasChanged(); } } )
+                />
+        }
+    </div>
+}
+
+@code
+{
+    private List<Item> items;
+    private List<Item> loadout = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        string itemFile = "data/items.json";
+        items = (await Http.GetFromJsonAsync<List<Item>>(itemFile)).Take(10).ToList();
+    }
+}

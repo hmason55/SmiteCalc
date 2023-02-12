@@ -1,0 +1,15 @@
+:root {
+    --border-radius: 20px;
+}
+
+.grid-cell {
+    width: 5rem;
+    height: 5rem;
+    overflow: hidden;
+    border: 1px solid var(--gm-color-surface);
+}
+
+.grid-cell:hover {
+    opacity: 0.9;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}

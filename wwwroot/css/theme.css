@@ -1,0 +1,19 @@
+@import url('./theme.light.css');
+@import url('./theme.dark.css');
+
+:root {
+    --gm-shape-radius-xs: 8px;
+    --gm-shape-radius-sm: 12px;
+    --gm-shape-radius-md: 16px;
+    --gm-shape-radius-lg: 20px;
+    --gm-shape-radius-xl: 24px;
+}
+
+.light-theme {
+    --gm-color-surface: var(--gm-color-surface-light);
+    --gm-color-on-surface: var(--gm-color-on-surface-light);
+}
+
+.dark-theme {
+    --gm-color-surface: var(--gm-color-surface-dark);
+}
