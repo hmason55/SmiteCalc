@@ -1,3 +1,19 @@
+/* /Components/GridCell.razor.rz.scp.css */
+:root[b-7uyfmy54s8] {
+    --border-radius: 20px;
+}
+
+.grid-cell[b-7uyfmy54s8] {
+    width: 5rem;
+    height: 5rem;
+    overflow: hidden;
+    border: 1px solid var(--gm-color-surface);
+}
+
+.grid-cell:hover[b-7uyfmy54s8] {
+    opacity: 0.9;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-f60ambnlxk] {
     position: relative;

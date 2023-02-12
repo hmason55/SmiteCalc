@@ -1,3 +1,5 @@
+@import url('./theme.css');
+
 h1:focus {
     outline: none;
 }
@@ -30,3 +32,28 @@ h1:focus {
 .blazor-error-boundary::after {
     content: "An error has occurred."
 }
+
+
+.label {
+    color: var(--gm-color-on-surface);
+}
+
+.pane {
+    border-radius: var(--gm-shape-radius-lg);
+    border: 1px solid var(--gm-color-surface);
+    background: var(--gm-color-surface);
+    backdrop-filter: blur(35px);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+    margin: 0.5rem;
+    display: flex;
+}
+
+.outline {
+    border: solid 1px black;
+}
+
+main {
+    background: rgb(34,193,195);
+    background: linear-gradient(86deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+}
+
