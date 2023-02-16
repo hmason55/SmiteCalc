@@ -2,7 +2,7 @@
   "cacheBootResources": true,
   "config": [ ],
   "debugBuild": false,
-  "entryAssembly": "SmiteCalc",
+  "entryAssembly": "SmiteTools",
   "icuDataMode": 0,
   "linkerEnabled": true,
   "resources": {
@@ -23,7 +23,7 @@
       "Microsoft.JSInterop.dll": "sha256-KnwOZIbbEsohnvCGve4h1hg6Bbb0NBb93p6MFMDURXE=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-gAM0U1w98ffRNyjMybCtgJeQFGgmxqc7CH1\/UxP2p2o=",
       "Newtonsoft.Json.dll": "sha256-SBbEJ29XXk2FuAYzoN8urfKUlv4AvcM814Q+YTc73g4=",
-      "SmiteCalc.dll": "sha256-OimYDsx\/KOetelceHq9CQnKajC4ZGterEy9LmwJiEAM=",
+      "SmiteTools.dll": "sha256-69ucc1ORId6\/hGpfOOziFQ6JA+kUyBFKFub34pK8HQU=",
       "System.Collections.Concurrent.dll": "sha256-7sGqclY0Sbz2jnq4LPtxgP2FDXvrpSBDUzGl4MWl3HQ=",
       "System.Collections.dll": "sha256-67SPcsEqPr6utkdsS8HMlVEAJ4eZFT47toFrN3KfIv8=",
       "System.Collections.NonGeneric.dll": "sha256-tssOfPTt06wB\/un6Q+l6Ga+7viRUTwVrMc0BYZbZOX0=",
