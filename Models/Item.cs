@@ -2,7 +2,7 @@ using System.Numerics;
 using System.Text.Json.Serialization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace SmiteCalc.Models;
+namespace SmiteTools.Models;
 
 public class Item
 {

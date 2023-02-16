@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace SmiteCalc.Models;
+namespace SmiteTools.Models;
 
 public class ItemDescription
 {

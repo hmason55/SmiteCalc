@@ -1,6 +1,6 @@
 
 
-namespace SmiteCalc.Models;
+namespace SmiteTools.Models;
 
 public class Player
 {

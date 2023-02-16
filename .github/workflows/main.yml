@@ -18,13 +18,13 @@ jobs:
           dotnet-version: '7.0.x'
           
       - name: Build project
-        run: dotnet build SmiteCalc.csproj
+        run: dotnet build SmiteTools.csproj
           
       - name: Publish project
-        run: dotnet publish SmiteCalc.csproj -c Release -o release --nologo
+        run: dotnet publish SmiteTools.csproj -c Release -o release --nologo
         
-      - name: Change base-tag in index.html from / to SmiteCalc
-        run: sed -i 's/<base href="\/" \/>/<base href="\/SmiteCalc\/" \/>/g' release/wwwroot/index.html
+      - name: Change base-tag in index.html from / to SmiteTools
+        run: sed -i 's/<base href="\/" \/>/<base href="\/SmiteTools\/" \/>/g' release/wwwroot/index.html
 
       - name: Copy index.html to 404.html
         run: cp release/wwwroot/index.html release/wwwroot/404.html
