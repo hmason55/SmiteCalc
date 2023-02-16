@@ -43,7 +43,7 @@ h1:focus {
     border: 1px solid var(--gm-color-surface);
     background: var(--gm-color-surface);
     backdrop-filter: blur(35px);
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+    box-shadow: var(--gm-box-shadow-1);
     margin: 0.5rem;
     display: flex;
 }
@@ -55,5 +55,72 @@ h1:focus {
 main {
     background: rgb(34,193,195);
     background: linear-gradient(86deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+}
+
+.gm-btn {
+    /*
+        --gm-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
+        --gm-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.075);
+        --gm-btn-disabled-opacity: 0.65;
+            color: var(--bs-btn-color);
+        background-color: var(--bs-btn-bg);
+    */
+    display: inline-block;
+    padding: var(--gm-btn-padding-y) var(--gm-btn-padding-x);
+    font-size: var(--gm-btn-font-size);
+    font-weight: var(--gm-btn-font-weight);
+    line-height: var(--gm-btn-line-height);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    text-shadow: var(--gm-text-shadow-1);
+    margin: 0.5rem;
+    color: var(--gm-color-on-primary);
+    background-color: transparent;
+    border: var(--gm-border-width) solid transparent;
+    border-radius: var(--gm-shape-radius-lg);
+    height: 40px;
+    transition: box-shadow .15s ease-in-out, background-color .15s ease-in-out, filter .15s ease-in-out, border .15s ease-in-out;
+}
+
+.gm-btn:hover {
+    filter: brightness(1.05);
+    backdrop-filter: blur(35px);
+    background-color: inherit;
+}
+
+.gm-btn:active {
+    filter: brightness(0.95);
+    box-shadow: none;
+}
+
+.btn-elevated {
+    box-shadow: var(--gm-box-shadow-1);
+    border: var(--gm-border-width) solid var(--gm-border-color);
+}
+
+.btn-elevated:hover {
+    box-shadow: var(--gm-box-shadow-2);
+}
+
+.btn-filled,
+.btn-filled:hover {
+    background-color: rgb(var(--gm-color-primary) / var(--gm-btn-opacity));
+    border: var(--gm-border-width) solid var(--gm-border-color);
+}
+
+.btn-outlined {
+    color: var(--gm-color-on-primary);
+    border: var(--gm-border-width) solid var(--gm-border-color);
+}
+
+.table {
+    color: var(--gm-color-on-surface);
+    border-color: var(--gm-color-surface);
+    text-shadow: var(--gm-text-shadow-1);
 }
 

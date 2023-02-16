@@ -1,0 +1,88 @@
+﻿@using System.Text.Json;
+@using SmiteCalc.Models
+
+@inherits ComponentBase
+
+@namespace SmiteCalc.Components
+<button class="gm-btn btn-filled" @onclick=@(() => Simulate())><i class="fas fa-bolt pe-2"/>Simulate</button>
+@Component
+
+@code {
+    public RenderFragment Component => __builder =>
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">P1 DPS</th>
+                    <th scope="col">P2 HP</th>
+                    <th scope="col">P2 HP Δ</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (CombatStep step in Steps.Where(s => s.Player2.DeltaHealth != 0))
+                {
+                    <tr>
+                        <th scope="row">@step.TimeStamp.TotalSeconds</th>
+                        <td>@Steps.Where(s => s.TimeStamp > step.TimeStamp - TimeSpan.FromSeconds(1) && s.TimeStamp <= step.TimeStamp).Sum(s => s.Player1.DamageDealt)</td>
+                        <td>@step.Player2.CurrentHealth</td>
+                        <td>@step.Player2.DeltaHealth</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    };
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public string IconUrl { get; set; }
+
+    [Parameter]
+    public Action OnClick { get; set; } = () => { };
+
+    public List<CombatStep> Steps { get; set; } = new();
+
+    public double StepDuration = 0.01;
+
+
+    public void Simulate()
+    {
+        Player p2 = new();
+        Player p1 = new(p2)
+        {
+            IsBasicAttacking = true,
+        };
+
+        for(TimeSpan t = TimeSpan.Zero; t < TimeSpan.FromSeconds(10); t += TimeSpan.FromSeconds(StepDuration))
+        {
+
+            p1.PreStep();
+            p2.PreStep();
+
+            p1.Step(t);
+            p2.Step(t);
+
+            p1.PostStep();
+            p2.PostStep();
+
+            CombatStep step = new()
+            {
+                TimeStamp = t,
+                Player1 = JsonSerializer.Deserialize<Player>(JsonSerializer.Serialize(p1)),
+                Player2 = JsonSerializer.Deserialize<Player>(JsonSerializer.Serialize(p2)),
+            };
+
+            Steps.Add(step);
+
+            if(p1.CurrentHealth <= 0 || p2.CurrentHealth <= 0)
+            {
+                break;
+            }
+        }
+    }
+}

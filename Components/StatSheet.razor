@@ -1,0 +1,56 @@
+﻿@inherits ComponentBase
+
+@namespace SmiteCalc.Components
+@using SmiteCalc.Models;
+
+@Component(Items)
+
+@code {
+    public RenderFragment<List<Item>> Component => items => __builder =>
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Stat</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @{
+                    Dictionary<string, Stat> stats = new();
+                    foreach(Item item in items)
+                    {
+                        foreach(KeyValuePair<string, Stat> pair in item.GetStats())
+                        {
+                            if(stats.TryGetValue(pair.Key, out Stat stat))
+                            {
+                                stat.Value += pair.Value.Value;
+                            }
+                            else
+                            {
+                                stats.Add(pair.Key, pair.Value);
+                            }
+                        }
+                    }
+                }
+
+                @foreach(string key in stats.Keys)
+                {
+                    @if (stats.TryGetValue(key, out Stat stat) && stat.Value != 0)
+                    {
+                        <tr>
+                            <th scope="row">@stat.Name</th>
+                            <td>@(stat.IsInteger ? $"{stat.Value}" : $"{stat.Value * 100:#.##} %")</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    };
+
+    [Parameter]
+    public List<Item> Items { get; set; } = new();
+}
