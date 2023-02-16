@@ -1,4 +1,6 @@
 :root {
-    --gm-color-surface-light: rgba(255, 255, 255, 0.1);
+    --gm-color-primary-light: 12 175 255;
+    --gm-color-on-primary-light: white;
+    --gm-color-surface-light: 255 255 255;
     --gm-color-on-surface-light: white;
 }
