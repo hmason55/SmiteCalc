@@ -8,6 +8,7 @@
 <PageTitle>Randomizer</PageTitle>
 
 @Component
+
 @code {
     public RenderFragment Component => __builder =>
     {
@@ -70,15 +71,7 @@
     public int RemainingRerolls { get; set; }
 
     public God _god { get; set; } = new();
-    public List<Item> _loadout { get; set; } = new()
-    {
-        new(),
-        new(),
-        new(),
-        new(),
-        new(),
-        new(),
-    };
+    public List<Item> _loadout { get; set; }
 
     public List<Item> _relics { get; set; } = new()
     {
@@ -89,10 +82,10 @@
     private List<God> _gods = Globals.Gods;
     private List<Item> _items = Globals.Items;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         DateTime start = DateTime.Now;
-        base.OnInitialized();
+        base.OnInitializedAsync();
         Initialize();
 
         Console.WriteLine($"Debug took: {DateTime.Now - start}");

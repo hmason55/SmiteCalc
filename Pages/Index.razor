@@ -39,7 +39,23 @@
 
 @if (_items == null)
 {
-    <p><em>Loading...</em></p>
+    <div class="row h-100">
+        <div class="col my-auto align-items-center">
+
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="row justify-content-center">
+                    @for (int j = 0; j < 3; j++)
+                    {
+                        <div class="spinner-grow text-light m-3" style=@($"width: 3rem; height: 3rem; animation-delay: {(((double)i+j)*0.075):#.##}s") role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    }
+                </div>
+            }
+
+        </div>
+    </div>
 }
 else
 {
