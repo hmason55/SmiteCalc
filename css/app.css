@@ -45,7 +45,13 @@ h1:focus {
     backdrop-filter: blur(35px);
     box-shadow: var(--gm-box-shadow-1);
     margin: 0.5rem;
-    display: flex;
+    color: var(--gm-color-on-surface);
+    text-shadow: var(--gm-text-shadow-1);
+}
+
+.pane > hr {
+    border-color: var(--gm-color-surface);
+    opacity: 1;
 }
 
 .outline {

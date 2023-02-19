@@ -8,6 +8,7 @@
     height: 5rem;
     overflow: hidden;
     border: 1px solid var(--gm-color-surface);
+    display: flex;
 }
 
 .grid-cell:hover[b-2n911s83x3] {
