@@ -8,7 +8,7 @@ public static class Extensions
     {
         url ??= string.Empty;
         Uri uri = new(url);
-        return $"/data/{uri.Host}/{new Uri($"{uri.Scheme}://{uri.Host}").MakeRelativeUri(new(url))}";
+        return new Uri(Globals.BaseUri, $"data/{uri.Host}/{new Uri($"{uri.Scheme}://{uri.Host}").MakeRelativeUri(new(url))}").ToString();
     }
 
     public static bool ContainsItem(this IEnumerable<Item> items, Item item) => items.Where(i => i.ItemId == item.ItemId).Any();
