@@ -7,13 +7,12 @@ namespace SmiteTools.Models;
 public class Item
 {
     public const int MAGIC_ACORN_ID = 18703;
-
     public const int KATANA_ID = 12671;
-
     public const int SHORT_BOW_ID = 10662;
-    public const int MYSTICAL_EARRING_ID = 23147;
     public const int PROTECTORS_MASK_ID = 23048;
     public const int FIGHTERS_MASK_ID = 16397;
+    public const int MYSTICAL_EARRING_ID = 23147;
+    public const int GLEAMING_EAR_CUFFS_ID = 23148;
 
     // Metadata
 

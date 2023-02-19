@@ -31,7 +31,7 @@ public class God
 
     public bool CanPurchaseItem(Item item)
     {
-        // Specific items.
+        // Omit based root items.
         switch(item.RootItemId)
         {
             case Item.KATANA_ID when !(IsWarrior || IsAssassin):
@@ -47,6 +47,21 @@ public class God
                 return false;
 
             case Item.FIGHTERS_MASK_ID when !(IsWarrior || IsGuardian):
+                return false;
+        }
+
+        // Omit based on child items.
+        switch (item.ChildItemId)
+        {
+            // Griffonwing earrings
+            case Item.GLEAMING_EAR_CUFFS_ID when !(IsHunter || IsMage):
+                return false;
+        }
+
+        // Omit based on items.
+        switch (item.ItemId)
+        {
+            case Item.GLEAMING_EAR_CUFFS_ID when !(IsHunter || IsMage):
                 return false;
         }
 
