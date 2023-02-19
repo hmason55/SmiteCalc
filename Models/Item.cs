@@ -6,6 +6,15 @@ namespace SmiteTools.Models;
 
 public class Item
 {
+    public const int MAGIC_ACORN_ID = 18703;
+
+    public const int KATANA_ID = 12671;
+
+    public const int SHORT_BOW_ID = 10662;
+    public const int MYSTICAL_EARRING_ID = 23147;
+    public const int PROTECTORS_MASK_ID = 23048;
+    public const int FIGHTERS_MASK_ID = 16397;
+
     // Metadata
 
     [JsonPropertyName("DeviceName")]
@@ -132,4 +141,13 @@ public class Item
             }
         };
     }
+
+    public bool IsPhysicalOnly => !(StartingItem || RootItemId == MYSTICAL_EARRING_ID) && PhysicalPower > 0;
+    public bool IsMagicalOnly => !(StartingItem || RootItemId == MYSTICAL_EARRING_ID) && MagicalPower > 0;
+
+    public bool ActivelyStacks => ItemTier == 4 && Type == "Item" && Price == 1;
+    public bool IsEvolved => ItemTier == 4 && Type == "Item" && Price <= 1;
+    public bool IsGlyph => ItemTier == 4 && Type == "Item" && Price > 1;
+
+    public override string ToString() => Name;
 }

@@ -29,7 +29,7 @@
     {
         <GridCell 
             Name=@item.Name
-            IconUrl=@item.IconUrl
+            IconUrl=@item.IconUrl.ToStaticResource()
             OnClick=@(() => RemoveFromLoadout(item))
             />
     }
@@ -43,12 +43,12 @@
 }
 else
 {
-    <div class="flex-wrap p-1 pane">
-        @foreach (Item item in _items.Where(i => i.ActiveFlag == "y" && i.Type == "Item").OrderBy(i => i.ItemId))
+    <div class="d-flex flex-wrap p-3 pane">
+        @foreach (Item item in Globals.Items.Where(i => i.Type == "Item"))
         {
             <GridCell
                 Name=@item.Name
-                IconUrl=@item.IconUrl
+                      IconUrl=@item.IconUrl.ToStaticResource()
                 OnClick=@(() => AddToLoadout(item))
                 />
         }

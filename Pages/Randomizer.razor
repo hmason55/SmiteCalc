@@ -1,0 +1,296 @@
+﻿@page "/randomizer"
+@using SmiteTools.Components
+@using SmiteTools.Models;
+@using System.Diagnostics;
+
+@inherits ComponentBase 
+
+<PageTitle>Randomizer</PageTitle>
+
+@Component
+@code {
+    public RenderFragment Component => __builder =>
+    {
+        <div class="pane flex-column p-3">
+
+            <div class="m-3">
+                <span>Remaining Rerolls: @RemainingRerolls</span>
+            </div>
+
+            <div>
+                <button class="gm-btn btn-filled" @onclick=@(() => Initialize())>
+                    <i class="fas fa-dice pe-2" />
+                    Randomize
+                </button>
+            </div>
+            
+            <hr />
+
+            <div>
+                <GridCell
+                    Name=@_god.Name
+                    IconUrl=@_god.IconUrl
+                    OnClick=@(() => { RerollGod(Constraint); StateHasChanged();}) />
+            </div>
+
+            <hr />
+
+            <div class="d-flex flex-wrap">
+                @for (int i = 0; i < 6; i++)
+                {
+                    int index = i;
+                    <GridCell 
+                        Name=@_loadout[index].Name
+                        IconUrl=@_loadout[index].IconUrl.ToStaticResource()
+                        OnClick=@(() => { DateTime start = DateTime.Now; RerollItem(index, Constraint); Console.WriteLine($"Reroll took: {DateTime.Now - start}"); StateHasChanged(); }) />
+                }
+            </div>
+
+            <hr />
+
+            <div class="d-flex flex-wrap">
+                @for (int i = 0; i < 2; i++)
+                {
+                    int index = i;
+                    <GridCell
+                        Name=@_relics[index].Name
+                        IconUrl=@_relics[index].IconUrl.ToStaticResource()
+                        OnClick=@(() => { DateTime start = DateTime.Now; RerollRelic(index, Constraint); Console.WriteLine($"Reroll took: {DateTime.Now - start}"); StateHasChanged(); }) />
+                }
+            </div>
+        </div>
+
+        <div class="pane flex-wrap p-3 ">
+            <StatSheet Items=@_loadout />
+        </div>
+    };
+
+    public RerollConstraint Constraint { get; set; } = new();
+    public int StartingRerolls { get; set; } = 5;
+    public int RemainingRerolls { get; set; }
+
+    public God _god { get; set; } = new();
+    public List<Item> _loadout { get; set; } = new()
+    {
+        new(),
+        new(),
+        new(),
+        new(),
+        new(),
+        new(),
+    };
+
+    public List<Item> _relics { get; set; } = new()
+    {
+        new(),
+        new()
+    };
+
+    private List<God> _gods = Globals.Gods;
+    private List<Item> _items = Globals.Items;
+
+    protected override void OnInitialized()
+    {
+        DateTime start = DateTime.Now;
+        base.OnInitialized();
+        Initialize();
+
+        Console.WriteLine($"Debug took: {DateTime.Now - start}");
+    }
+
+    public void Initialize()
+    {
+        RemainingRerolls = StartingRerolls;
+
+        _loadout = new()
+        {
+            new(),
+            new(),
+            new(),
+            new(),
+            new(),
+            new(),
+        };
+
+        _relics = new()
+        {
+            new(),
+            new(),
+        };
+
+        RerollGod(Constraint, false);
+
+        for (int i = 0; i < 6; i++)
+        {
+            RerollItem(i, Constraint, false);
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            RerollRelic(i, Constraint, false);
+        }
+
+        StateHasChanged();
+    }
+
+
+    public void RerollGod(RerollConstraint constraint = null, bool useReroll = true)
+    {
+        if (RemainingRerolls <= 0)
+        {
+            return;
+        }
+
+        List<God> filteredGods = _gods;
+        if (!filteredGods.Any())
+        {
+            return;
+        }
+
+        Random random = new();
+
+        for (int i = 0; i < 100; i++)
+        {
+            int roll = random.Next() % (filteredGods.Count - 1);
+
+            God god = filteredGods[roll];
+
+            if (god.Id == _god.Id)
+            {
+                continue;
+            }
+
+            if(useReroll)
+            {
+                RemainingRerolls--;
+            }
+
+            _god = god;
+
+            for (int j = 0; j < 6; j++)
+            {
+                if(!_god.CanPurchaseItem(_loadout[j]))
+                {
+                    RerollItem(j, Constraint, false);
+                }
+            }
+            return;
+        }
+
+        return;
+    }
+
+    public void RerollItem(int index, RerollConstraint constraint = null, bool useReroll = true)
+    {
+        if(RemainingRerolls <= 0)
+        {
+            return;
+        }
+
+        List<Item> unevolvedItems = _items.Where(i => _items.Where(ii => ii.IsEvolved).Select(ii => ii.ChildItemId).Contains(i.ItemId)).ToList();
+        List<Item> filteredItems = _items.Where(i => i.Type == "Item").Except(unevolvedItems).ToList();
+        if(!filteredItems.Any())
+        {
+            return;
+        }
+
+        Random random = new();
+
+        for(int i = 0; i < 100; i++)
+        {
+            int roll = random.Next() % (filteredItems.Count - 1);
+
+            Item item = filteredItems[roll];
+
+            // Restrict items based on god usability.
+            if(!_god.CanPurchaseItem(item))
+            {
+                continue;
+            }
+
+            // Don't allow duplicate items.
+            if (_loadout.ContainsItem(item))
+            {
+                continue;
+            }
+
+            // Limit 1 starting item.
+            if(item.StartingItem && _loadout.ContainsStarterItem())
+            {
+                continue;
+            }
+
+            // Limit 1 acorn item.
+            if (item.RootItemId == Item.MAGIC_ACORN_ID && _loadout.ContainsMagicAcornItem())
+            {
+                continue;
+            }
+
+            // Limit 1 glyph item.
+            if (item.IsGlyph && _loadout.ContainsGlyphItem())
+            {
+                continue;
+            }
+
+            // Don't allow t3 of the same glyph
+            if (_loadout.ContainsGlyphOfT3Item(item))
+            {
+                continue;
+            }
+
+            // Restrict items based on items in loadout.
+            if (_loadout.ContainsEvolvedItem(item))
+            {
+                continue;
+            }
+
+            if(useReroll)
+            {
+                RemainingRerolls--;
+            }
+
+            _loadout[index] = item;
+            return;
+        }
+
+        return;
+    }
+
+    public void RerollRelic(int index, RerollConstraint constraint = null, bool useReroll = true)
+    {
+        if (RemainingRerolls <= 0)
+        {
+            return;
+        }
+
+        List<Item> filteredRelics = _items.Where(i => i.Type == "Active" && i.Price > 300).ToList();
+        if (!filteredRelics.Any())
+        {
+            return;
+        }
+
+        Random random = new();
+
+        for (int i = 0; i < 100; i++)
+        {
+            int roll = random.Next() % (filteredRelics.Count - 1);
+
+            Item item = filteredRelics[roll];
+
+            if (_relics.ContainsRelic(item))
+            {
+                continue;
+            }
+
+            if (useReroll)
+            {
+                RemainingRerolls--;
+            }
+
+            _relics[index] = item;
+            return;
+        }
+
+        return;
+    }
+}

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using SmiteTools;
+using SmiteTools.Models;
+using System.Net.Http.Json;
 
 public class Program
 {
@@ -10,9 +12,10 @@ public class Program
         builder.RootComponents.Add<App>("#app");
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
-        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        await Globals.Initialize(builder.HostEnvironment.BaseAddress);
+
+        builder.Services.AddScoped(sp => Globals.Client);
 
         await builder.Build().RunAsync();
-
     }
 }

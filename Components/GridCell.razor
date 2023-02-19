@@ -7,8 +7,9 @@
 @code {
     public RenderFragment Component => __builder =>
     {
-        <div class="pane grid-cell" @onclick=@(() => OnClick())>
+        <div class="pane grid-cell m-1" @onclick=@(() => Click())>
             <img src=@IconUrl />
+            
             <!-- <span class="align-self-center label">//@Name</span> -->
         </div>
     };
@@ -21,4 +22,15 @@
 
     [Parameter]
     public Action OnClick { get; set; } = () => { };
+
+    public void Click()
+    {
+        OnClick?.Invoke();
+        Update();
+    }
+
+    public void Update()
+    {
+        StateHasChanged();
+    }
 }
