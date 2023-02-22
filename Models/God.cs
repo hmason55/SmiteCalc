@@ -59,6 +59,9 @@ public class God
 
             case Item.SANDS_OF_TIME_ID when IsPhysical:
                 return false;
+
+            case Item.CONDUIT_GEM_ID when IsPhysical:
+                return false;
         }
 
         // Omit based on child items.
