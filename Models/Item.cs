@@ -13,6 +13,13 @@ public class Item
     public const int FIGHTERS_MASK_ID = 16397;
     public const int MYSTICAL_EARRING_ID = 23147;
     public const int GLEAMING_EAR_CUFFS_ID = 23148;
+    public const int WARDING_SIGIL_ID = 19751;
+    public const int MANIKIN_HIDDEN_BLADE_ID = 19641;
+    public const int DEATHS_TEMPER_ID = 19587;
+    public const int BLUESTONE_BROOCH_ID = 23859;
+    public const int SANDS_OF_TIME_ID = 14090;
+    public const int VAMPIRIC_SHROUD_ID = 19511;
+    public const int CONDUIT_GEM_ID = 19677;
 
     // Metadata
 

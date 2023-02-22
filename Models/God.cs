@@ -31,9 +31,14 @@ public class God
 
     public bool CanPurchaseItem(Item item)
     {
+
+
         // Omit based root items.
         switch(item.RootItemId)
         {
+            case Item.WARDING_SIGIL_ID when IsMagical:
+                return false;
+
             case Item.KATANA_ID when !(IsWarrior || IsAssassin):
                 return false;
 
@@ -47,6 +52,12 @@ public class God
                 return false;
 
             case Item.FIGHTERS_MASK_ID when !(IsWarrior || IsGuardian):
+                return false;
+
+            case Item.VAMPIRIC_SHROUD_ID when IsPhysical:
+                return false;
+
+            case Item.SANDS_OF_TIME_ID when IsPhysical:
                 return false;
         }
 
@@ -62,6 +73,15 @@ public class God
         switch (item.ItemId)
         {
             case Item.GLEAMING_EAR_CUFFS_ID when !(IsHunter || IsMage):
+                return false;
+
+            case Item.MANIKIN_HIDDEN_BLADE_ID when IsMagical:
+                return false;
+
+            case Item.DEATHS_TEMPER_ID when IsMagical:
+                return false;
+
+            case Item.BLUESTONE_BROOCH_ID when IsMagical:
                 return false;
         }
 
