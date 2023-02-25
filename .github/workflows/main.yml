@@ -18,10 +18,10 @@ jobs:
           dotnet-version: '7.0.x'
           
       - name: Build project
-        run: dotnet build SmiteTools.csproj
+        run: dotnet build SmiteTools/SmiteTools.csproj
           
       - name: Publish project
-        run: dotnet publish SmiteTools.csproj -c Release -o release --nologo
+        run: dotnet publish SmiteTools/SmiteTools.csproj -c Release -o release --nologo
         
       - name: Change base-tag in index.html from / to SmiteTools
         run: sed -i 's/<base href="\/" \/>/<base href="\/SmiteTools\/" \/>/g' release/wwwroot/index.html
