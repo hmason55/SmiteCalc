@@ -1,3 +1,4 @@
+using SmiteCommon.Models.Items;
 using SmiteTools.Models;
 
 namespace SmiteTools;

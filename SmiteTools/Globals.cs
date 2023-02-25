@@ -1,5 +1,5 @@
-using SmiteTools.Models;
-using System.Net.Http.Json;
+using SmiteCommon.Models.Gods;
+using SmiteCommon.Models.Items;
 using System.Text.Json;
 
 namespace SmiteTools;
