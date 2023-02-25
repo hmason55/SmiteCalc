@@ -42,7 +42,6 @@ h1:focus {
     border-radius: var(--gm-shape-radius-lg);
     border: 1px solid var(--gm-color-surface);
     background: var(--gm-color-surface);
-    backdrop-filter: blur(35px);
     box-shadow: var(--gm-box-shadow-1);
     margin: 0.5rem;
     color: var(--gm-color-on-surface);
@@ -128,4 +127,8 @@ main {
     color: var(--gm-color-on-surface);
     border-color: var(--gm-color-surface);
     text-shadow: var(--gm-text-shadow-1);
+}
+
+.blur-1 {
+    backdrop-filter: var(--gm-filter-blur-1);
 }

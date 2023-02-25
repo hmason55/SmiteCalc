@@ -2,6 +2,7 @@
 @import url('./theme.dark.css');
 
 :root {
+    backdrop-filter: blur(35px);
     --gm-btn-padding-x: 24px;
     --gm-btn-padding-y: 0;
     --gm-btn-font-size: 1rem;
@@ -24,10 +25,14 @@
     --gm-box-shadow-3: 0 0 0.75rem rgba(0, 0, 0, 0.28);
     --gm-box-shadow-4: 0 0 1rem rgba(0, 0, 0, 0.32);
     --gm-box-shadow-5: 0 0 1.25rem rgba(0, 0, 0, 0.36);
+    --gm-filter-blur-1: blur(1rem);
+    --gm-filter-blur-2: blur(2rem);
+    --gm-filter-blur-3: blur(3rem);
+    --gm-filter-blur-4: blur(4rem);
+    --gm-filter-blur-5: blur(5rem);
     --gm-surface-opacity: 0.2;
     --gm-btn-opacity: 0.4;
     --gm-border-opacity: 0.2;
-    
 }
 
 .light-theme {
