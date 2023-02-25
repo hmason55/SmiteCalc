@@ -1,4 +1,5 @@
-﻿@using SmiteCommon.Models.Items;
+﻿@using SmiteCommon.Models.Gods;
+@using SmiteCommon.Models.Items;
 @using SmiteTools.Models
 @using SmiteTools.Components
 @using Newtonsoft.Json
@@ -7,7 +8,7 @@
 
 @page "/"
 
-<div class="pane">
+<div class="pane blur-1">
     <button class="gm-btn btn-elevated">Elevated</button>
     <button class="gm-btn btn-filled">Filled</button>
     <button class="gm-btn btn-outlined">Outlined</button>
@@ -15,75 +16,84 @@
     <button class="gm-btn btn-ico"><i class="fas fa-check"/></button>
 </div>
 
-<div class="flex-wrap p-3 pane">
-    <CombatSimulation />
-</div>
-
-<div class="flex-wrap p-3 pane">
-    <StatSheet
-        Items=@_loadout
-        />
-</div>
-
-<div class="flex-wrap p-3 pane">
-    @foreach (Item item in _loadout)
-    {
-        <GridCell 
-            Name=@item.Name
-            IconUrl=@item.IconUrl.ToStaticResource()
-            OnClick=@(() => RemoveFromLoadout(item))
-            />
-    }
-</div>
-
-<hr />
-
-@if (_items == null)
-{
-    <div class="row h-100">
-        <div class="col my-auto align-items-center">
-
-            @for (int i = 0; i < 3; i++)
-            {
-                <div class="row justify-content-center">
-                    @for (int j = 0; j < 3; j++)
-                    {
-                        <div class="spinner-grow text-light m-3" style=@($"width: 3rem; height: 3rem; animation-delay: {(((double)i+j)*0.075):#.##}s") role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    }
-                </div>
-            }
-
-        </div>
-    </div>
-}
-else
-{
-    <div class="d-flex flex-wrap p-3 pane">
-        @foreach (Item item in Globals.Items.Where(i => i.Type == "Item"))
-        {
-            <GridCell
-                Name=@item.Name
-                      IconUrl=@item.IconUrl.ToStaticResource()
-                OnClick=@(() => AddToLoadout(item))
-                />
-        }
-    </div>
-}
+@GodGridComponent
+@ItemGridComponent
+@LoadoutComponent
+@StatSheetComponent
+@CombatSimulationComponent
 
 @code
 {
+    protected RenderFragment CombatSimulationComponent => __builder =>
+    {
+        <div class="flex-wrap p-3 pane blur-1">
+            <CombatSimulation @ref=@CombatSimulation/>
+        </div>
+    };
+
+    protected RenderFragment StatSheetComponent => __builder =>
+    {
+        <div class="flex-wrap p-3 pane blur-1">
+            <StatSheet Items=@_loadout @ref=@StatSheet />
+        </div>
+    };
+
+    protected RenderFragment LoadoutComponent => __builder =>
+    {
+        <div class="d-flex flex-wrap p-3 pane blur-1">
+            @foreach (Item item in _loadout)
+            {
+                <GridCell Name=@item.Name
+                    IconUrl=@item.IconUrl.ToStaticResource()
+                    OnClick=@(() => RemoveFromLoadout(item)) />
+            }
+        </div>
+    };
+
+    protected RenderFragment GodGridComponent => __builder =>
+    {
+        if(_gods != null)
+        {
+            <div class="d-flex flex-wrap p-3 pane">
+                @foreach (God god in Globals.Gods)
+                {
+                    <GridCell Name=@god.Name
+                          IconUrl=@god.IconUrl.ToStaticResource()
+                           />
+                }
+            </div>
+        }
+    };
+
+    protected RenderFragment ItemGridComponent => __builder =>
+    {
+        if (_items != null)
+        {
+            <div class="d-flex flex-wrap p-3 pane">
+                @foreach (Item item in Globals.Items.Where(i => i.Type == "Item"))
+                {
+                    <GridCell Name=@item.Name
+                          IconUrl=@item.IconUrl.ToStaticResource()
+                          OnClick=@(() => AddToLoadout(item)) />
+                }
+            </div>
+        }
+    };
+
     private List<Item> _items;
+    private List<God> _gods;
     private List<Item> _loadout = new()
     {
         Capacity = 6
     };
 
+    public StatSheet StatSheet { get; set; }
+    public CombatSimulation CombatSimulation { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        string itemFile = "data/items.json";
-        _items = (await Http.GetFromJsonAsync<List<Item>>(itemFile)).ToList();
+        _gods = (await Http.GetFromJsonAsync<List<God>>("data/gods.json")).ToList();
+        _items = (await Http.GetFromJsonAsync<List<Item>>("data/items.json")).ToList();
     }
 
     public void AddToLoadout(Item item)
@@ -115,7 +125,8 @@ else
 
         _loadout.Add(item);
         _items.Remove(item);
-        StateHasChanged();
+
+        StatSheet.Render();
     }
 
     public void RemoveFromLoadout(Item item)

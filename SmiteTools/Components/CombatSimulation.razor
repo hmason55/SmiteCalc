@@ -2,7 +2,7 @@
 @using SmiteTools.Models
 
 @namespace SmiteTools.Components
-@inherits ComponentBase
+@inherits RenderComponent
 
 <button class="gm-btn btn-filled" @onclick=@(() => Simulate())><i class="fas fa-bolt pe-2"/>Simulate</button>
 @Component
@@ -49,6 +49,11 @@
 
     public double StepDuration = 0.01;
 
+
+    public void Render()
+    {
+        InvokeAsync(StateHasChanged);
+    }
 
     public void Simulate()
     {
