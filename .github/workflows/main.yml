@@ -32,6 +32,12 @@ jobs:
       - name: Add .nojekyll file
         run: touch release/wwwroot/.nojekyll
         
+      - name: Get the latest gods
+        run: curl -X GET "https://hmason55.github.io/SmiteApi/gods/gods.json" -o release/wwwroot/data/gods.json
+        
+      - name: Get the latest items
+        run: curl -X GET "https://hmason55.github.io/SmiteApi/items/items.json" -o release/wwwroot/data/items.json
+        
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
