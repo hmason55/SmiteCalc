@@ -10,9 +10,10 @@ public static class Extensions
 
         url ??= string.Empty;
         Uri uri = new(url);
-        Uri localUri = new(Globals.BaseUri, $"data/{uri.Host}/{new Uri($"{uri.Scheme}://{uri.Host}").MakeRelativeUri(new(url))}");
+        return new Uri(Globals.BaseUri, $"data/{uri.Host}/{new Uri($"{uri.Scheme}://{uri.Host}").MakeRelativeUri(new(url))}").ToString();
+        //Uri localUri = new(Globals.BaseUri, $"data/{uri.Host}/{new Uri($"{uri.Scheme}://{uri.Host}").MakeRelativeUri(new(url))}");
 
-        return localUri.ToString();
+        //return localUri.ToString();
     }
 
     public static bool ContainsItem(this IEnumerable<Item> items, Item item) => items.Where(i => i.ItemId == item.ItemId).Any();
