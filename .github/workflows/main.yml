@@ -44,8 +44,8 @@ jobs:
         run: curl -X GET "https://hmason55.github.io/SmiteApi/items/items.json" -o release/wwwroot/data/items.json
         
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.4.2
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: site
-          FOLDER: release/wwwroot
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: site
+          folder: release/wwwroot
