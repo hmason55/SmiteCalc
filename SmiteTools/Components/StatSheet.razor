@@ -3,7 +3,7 @@
 @using SmiteTools.Models;
 
 @namespace SmiteTools.Components
-@inherits RenderComponent
+@inherits ComponentBase
 
 @Component(Items)
 
@@ -55,4 +55,9 @@
 
     [Parameter]
     public List<Item> Items { get; set; } = new();
+
+    public void Update()
+    {
+        InvokeAsync(StateHasChanged);
+    }
 }

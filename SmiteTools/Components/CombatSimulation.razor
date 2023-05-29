@@ -2,7 +2,7 @@
 @using SmiteTools.Models
 
 @namespace SmiteTools.Components
-@inherits RenderComponent
+@inherits ComponentBase
 
 <button class="gm-btn btn-filled" @onclick=@(() => Simulate())><i class="fas fa-bolt pe-2"/>Simulate</button>
 @Component
@@ -85,5 +85,10 @@
                 break;
             }
         }
+    }
+
+    public void Update()
+    {
+        InvokeAsync(StateHasChanged);
     }
 }

@@ -1,5 +1,5 @@
 ﻿@namespace SmiteTools.Components
-@inherits RenderComponent
+@inherits ComponentBase
 
 @Component
 
@@ -25,5 +25,10 @@
     {
         OnClick?.Invoke();
         Update();
+    }
+
+    public void Update()
+    {
+        InvokeAsync(StateHasChanged);
     }
 }
