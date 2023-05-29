@@ -1,5 +1,5 @@
 ﻿@namespace SmiteTools.Components
-@inherits ComponentBase
+@inherits RenderComponent
 
 @Component
 
@@ -7,10 +7,9 @@
     public RenderFragment Component => __builder =>
     {
         <div class="pane grid-cell m-1" @onclick=@(() => Click())>
-            <img src=@IconUrl />
-            
+            <img src=@IconUrl data-bs-toggle="tooltip" data-bs-placement="top" title=@Name/>
             <!-- <span class="align-self-center label">//@Name</span> -->
-        </div>
+    </div>
     };
 
     [Parameter]
@@ -26,10 +25,5 @@
     {
         OnClick?.Invoke();
         Update();
-    }
-
-    public void Update()
-    {
-        StateHasChanged();
     }
 }

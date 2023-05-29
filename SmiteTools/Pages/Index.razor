@@ -5,7 +5,6 @@
 @using Newtonsoft.Json
 @using System.Diagnostics;
 @inject HttpClient Http
-@inject IJSRuntime JS
 
 @page "/"
 
@@ -58,12 +57,8 @@
             <div class="d-flex flex-wrap p-3 pane">
                 @foreach (God god in Globals.Gods)
                 {
-                    string uri = god.IconUrl.ToStaticResource();
-                    Console.WriteLine(uri);
-
                     <GridCell Name=@god.Name
-                          IconUrl=@uri
-                           />
+                          IconUrl=@god.IconUrl.ToStaticResource() />
                 }
             </div>
         }
@@ -76,11 +71,8 @@
             <div class="d-flex flex-wrap p-3 pane">
                 @foreach (Item item in Globals.Items.Where(i => i.Type == "Item"))
                 {
-                    string uri = item.IconUrl.ToStaticResource();
-                    Console.WriteLine(uri);
-
                     <GridCell Name=@item.Name
-                          IconUrl=@uri
+                          IconUrl=@item.IconUrl.ToStaticResource()
                           OnClick=@(() => AddToLoadout(item)) />
                 }
             </div>
@@ -99,8 +91,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        string uri = Http.BaseAddress.ToString();
-        Console.WriteLine($"BaseAddress: {uri}");
         _gods = (await Http.GetFromJsonAsync<List<God>>("data/gods.json")).ToList();
         _items = (await Http.GetFromJsonAsync<List<Item>>("data/items.json")).ToList();
     }
@@ -135,7 +125,7 @@
         _loadout.Add(item);
         _items.Remove(item);
 
-        StatSheet.Render();
+        StatSheet.Update();
     }
 
     public void RemoveFromLoadout(Item item)
