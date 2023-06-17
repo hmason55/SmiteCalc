@@ -45,7 +45,7 @@
                     int index = i;
                     <GridCell 
                         Name=@_loadout[index].Name
-                        IconUrl=@_loadout[index].IconUrl.ToStaticResource()
+                        IconUrl=@_loadout[index].IconUrl
                         OnClick=@(() => { DateTime start = DateTime.Now; RerollItem(index, Constraint); Console.WriteLine($"Reroll took: {DateTime.Now - start}"); StateHasChanged(); }) />
                 }
             </div>
@@ -58,7 +58,7 @@
                     int index = i;
                     <GridCell
                         Name=@_relics[index].Name
-                        IconUrl=@_relics[index].IconUrl.ToStaticResource()
+                        IconUrl=@_relics[index].IconUrl
                         OnClick=@(() => { DateTime start = DateTime.Now; RerollRelic(index, Constraint); Console.WriteLine($"Reroll took: {DateTime.Now - start}"); StateHasChanged(); }) />
                 }
             </div>

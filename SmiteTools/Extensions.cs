@@ -5,6 +5,7 @@ namespace SmiteTools;
 
 public static class Extensions
 {
+    /*
     public static string ToStaticResource(this string url)
     {
 
@@ -14,6 +15,7 @@ public static class Extensions
 
         return localUri.ToString();
     }
+    */
 
     public static bool ContainsItem(this IEnumerable<Item> items, Item item) => items.Where(i => i.ItemId == item.ItemId).Any();
     public static bool ContainsStarterItem(this IEnumerable<Item> items) => items.Where(i => i.StartingItem).Any();

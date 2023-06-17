@@ -44,7 +44,7 @@
             @foreach (Item item in _loadout)
             {
                 <GridCell Name=@item.Name
-                    IconUrl=@item.IconUrl.ToStaticResource()
+                    IconUrl=@item.IconUrl
                     OnClick=@(() => RemoveFromLoadout(item)) />
             }
         </div>
@@ -58,7 +58,7 @@
                 @foreach (God god in Globals.Gods)
                 {
                     <GridCell Name=@god.Name
-                          IconUrl=@god.IconUrl.ToStaticResource() />
+                          IconUrl=@god.IconUrl />
                 }
             </div>
         }
@@ -72,7 +72,7 @@
                 @foreach (Item item in Globals.Items.Where(i => i.Type == "Item"))
                 {
                     <GridCell Name=@item.Name
-                          IconUrl=@item.IconUrl.ToStaticResource()
+                          IconUrl=@item.IconUrl
                           OnClick=@(() => AddToLoadout(item)) />
                 }
             </div>
