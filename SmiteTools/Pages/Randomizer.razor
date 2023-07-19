@@ -1,6 +1,8 @@
 ﻿@page "/randomizer"
+@using MudBlazor
 @using SmiteCommon.Models.Gods;
 @using SmiteCommon.Models.Items;
+@using SmiteCommon.Models;
 @using SmiteTools.Components
 @using SmiteTools.Models;
 @using System.Diagnostics;
@@ -15,58 +17,77 @@
 @code {
     public RenderFragment Component => __builder =>
     {
-        <div class="pane flex-column p-3">
+        <MudItem Class="d-flex flex-column flex-grow-1 gap-4 align-center">
+            <MudItem Class="cursor-hover" @onclick=@(() => RerollGod(Constraint))>
+                <MudCard Style="width: 196px" Elevation="3">
+                    <MudCardMedia Image=@_god.IconUrl Height="196" Class="rounded-top-lg" />
+                    <MudCardContent>
+                        <MudText Typo="Typo.body1" Align="Align.Center">@_god.Name</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
 
-            <div class="m-3">
-                <span>Remaining Rerolls: @RemainingRerolls</span>
-            </div>
+            <MudItem>
+                <MudExpansionPanels MultiExpansion="true">
+                    <MudExpansionPanel Text="Items" IsInitiallyExpanded="true">
+                        <MudGrid Spacing="2" Justify="Justify.FlexStart">
+                            @for (int i = 0; i < 6; i++)
+                            {
+                                int index = i;
+                                <MudItem Class="cursor-hover" @onclick=@(() => RerollItem(index, Constraint))>
+                                    <MudCard Style="width: 128px" Elevation="3">
+                                        <MudCardMedia Image=@_loadout[index].IconUrl Height="128" Class="rounded-top-lg"/>
+                                        <MudCardContent>
+                                            <MudText Typo="Typo.body2" Align="Align.Center" Class="">@_loadout[index].Name</MudText>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </MudExpansionPanel>
 
-            <div>
-                <button class="gm-btn btn-filled" @onclick=@(() => Initialize())>
-                    <i class="fas fa-dice pe-2" />
-                    Randomize
-                </button>
-            </div>
-            
-            <hr />
+                    <MudExpansionPanel Text="Relics" IsInitiallyExpanded="true">
+                        <MudGrid Spacing="2" Justify="Justify.FlexStart">
+                            @for (int i = 0; i < 2; i++)
+                            {
+                                int index = i;
 
-            <div>
-                <GridCell
-                    Name=@_god.Name
-                    IconUrl=@_god.IconUrl
-                    OnClick=@(() => { RerollGod(Constraint); StateHasChanged();}) />
-            </div>
+                                <MudItem Class="cursor-hover" @onclick=@(() => RerollRelic(index, Constraint))>
+                                    <MudCard Style="width: 128px" Elevation="3">
+                                        <MudCardMedia Image=@_relics[index].IconUrl Height="128" Class="rounded-top-lg" />
+                                        <MudCardContent>
+                                            <MudText Typo="Typo.body2" Align="Align.Center">@_relics[index].Name</MudText>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </MudExpansionPanel>
 
-            <hr />
+                    <MudExpansionPanel Text="Stats">
 
-            <div class="d-flex flex-wrap">
-                @for (int i = 0; i < 6; i++)
-                {
-                    int index = i;
-                    <GridCell 
-                        Name=@_loadout[index].Name
-                        IconUrl=@_loadout[index].IconUrl
-                        OnClick=@(() => { DateTime start = DateTime.Now; RerollItem(index, Constraint); Console.WriteLine($"Reroll took: {DateTime.Now - start}"); StateHasChanged(); }) />
-                }
-            </div>
+                        <MudTable Items="@Stat.GetItemStats(_loadout)" Hover="true" Elevation="0" Breakpoint="Breakpoint.Sm">
+                            <HeaderContent>
+                                <MudTh>Stat</MudTh>
+                                <MudTh>Value</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="Stat">@context.Name</MudTd>
+                                <MudTd DataLabel="Value">
+                                    <MudProgressLinear Color="Color.Info" Size="Size.Medium" Value=@((context.IsInteger ? context.Value / context.Maximum : context.Value / context.Maximum) * 100)>
+                                        <MudText Typo="Typo.subtitle1" Color="Color.Inherit">@(context.IsInteger ? $"{context.Value}" : $"{context.Value * 100:#.##} %")</MudText>
+                                    </MudProgressLinear>
+                                </MudTd>
+                            </RowTemplate>
+                        </MudTable>
 
-            <hr />
 
-            <div class="d-flex flex-wrap">
-                @for (int i = 0; i < 2; i++)
-                {
-                    int index = i;
-                    <GridCell
-                        Name=@_relics[index].Name
-                        IconUrl=@_relics[index].IconUrl
-                        OnClick=@(() => { DateTime start = DateTime.Now; RerollRelic(index, Constraint); Console.WriteLine($"Reroll took: {DateTime.Now - start}"); StateHasChanged(); }) />
-                }
-            </div>
-        </div>
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+            </MudItem>
+        </MudItem>
 
-        <div class="pane flex-wrap p-3 ">
-            <StatSheet Items=@_loadout />
-        </div>
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Cached" Label=@($"Reroll ({RemainingRerolls})") @onclick=@(() => Initialize()) Class="ma-4" Style="position: fixed; right: 0; bottom: 0" />
     };
 
     public RerollConstraint Constraint { get; set; } = new();

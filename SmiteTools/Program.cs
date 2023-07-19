@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 using SmiteTools;
 using SmiteTools.Models;
 using System.Net.Http.Json;
@@ -14,6 +15,7 @@ public class Program
 
         await Globals.Initialize(builder.HostEnvironment.BaseAddress);
 
+        builder.Services.AddMudServices();
         builder.Services.AddScoped(sp => Globals.Client);
 
         await builder.Build().RunAsync();

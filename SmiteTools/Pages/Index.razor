@@ -1,5 +1,7 @@
-﻿@using SmiteCommon.Models.Gods;
+﻿@using MudBlazor
+@using SmiteCommon.Models.Gods;
 @using SmiteCommon.Models.Items;
+@using SmiteCommon.Models;
 @using SmiteTools.Models
 @using SmiteTools.Components
 @using Newtonsoft.Json
@@ -8,19 +10,18 @@
 
 @page "/"
 
-<div class="pane blur-1">
-    <button class="gm-btn btn-elevated">Elevated</button>
-    <button class="gm-btn btn-filled">Filled</button>
-    <button class="gm-btn btn-outlined">Outlined</button>
-    <button class="gm-btn btn-flush">Text</button>
-    <button class="gm-btn btn-ico"><i class="fas fa-check"/></button>
-</div>
+<MudItem Class="d-flex flex-column flex-grow-1 gap-4 align-center">
 
-@GodGridComponent
-@ItemGridComponent
-@LoadoutComponent
-@StatSheetComponent
-@CombatSimulationComponent
+    <MudItem>
+        <MudExpansionPanels MultiExpansion="true">
+            @GodGridComponent
+            @ItemGridComponent
+            @LoadoutComponent
+            @StatSheetComponent
+@*            @CombatSimulationComponent*@
+        </MudExpansionPanels>
+    </MudItem>
+</MudItem>
 
 @code
 {
@@ -33,34 +34,64 @@
 
     protected RenderFragment StatSheetComponent => __builder =>
     {
-        <div class="flex-wrap p-3 pane blur-1">
-            <StatSheet Items=@_loadout @ref=@StatSheet />
-        </div>
+        <MudExpansionPanel Text="Stats">
+
+            <MudTable Items="@Stat.GetItemStats(_loadout)" Hover="true" Elevation="0" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Stat</MudTh>
+                <MudTh>Value</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Stat">@context.Name</MudTd>
+                <MudTd DataLabel="Value">
+                    <MudProgressLinear Color="Color.Info" Size="Size.Medium" Value=@((context.IsInteger ? context.Value / context.Maximum : context.Value / context.Maximum) * 100)>
+                        <MudText Typo="Typo.subtitle1" Color="Color.Inherit">@(context.IsInteger ? $"{context.Value}" : $"{context.Value * 100:#.##} %")</MudText>
+                        </MudProgressLinear>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+
+        </MudExpansionPanel>
     };
 
     protected RenderFragment LoadoutComponent => __builder =>
     {
-        <div class="d-flex flex-wrap p-3 pane blur-1">
-            @foreach (Item item in _loadout)
-            {
-                <GridCell Name=@item.Name
-                    IconUrl=@item.IconUrl
-                    OnClick=@(() => RemoveFromLoadout(item)) />
-            }
-        </div>
+        <MudExpansionPanel Text="Loadout" IsInitiallyExpanded="true">
+            <MudGrid Spacing="1" Justify="Justify.FlexStart">
+                @foreach (Item item in _loadout)
+                {
+                    <MudItem Class="cursor-hover" @onclick=@(() => RemoveFromLoadout(item))>
+                        <MudCard Style="width: 128px" Elevation="3">
+                            <MudCardMedia Image=@item.IconUrl Height="128" Class="rounded-top-lg" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.body2" Align="Align.Center">@item.Name</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudExpansionPanel>
     };
 
     protected RenderFragment GodGridComponent => __builder =>
     {
         if(_gods != null)
         {
-            <div class="d-flex flex-wrap p-3 pane">
-                @foreach (God god in Globals.Gods)
-                {
-                    <GridCell Name=@god.Name
-                          IconUrl=@god.IconUrl />
-                }
-            </div>
+            <MudExpansionPanel Text="Gods">
+                <MudGrid Spacing="1" Justify="Justify.FlexStart">
+                    @foreach (God god in Globals.Gods)
+                    {
+                        <MudItem Class="cursor-hover" >
+                            <MudCard Style="width: 128px" Elevation="3">
+                                <MudCardMedia Image=@god.IconUrl Height="128" Class="rounded-top-lg" />
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body2" Align="Align.Center">@god.Name</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudExpansionPanel>
         }
     };
 
@@ -68,14 +99,21 @@
     {
         if (_items != null)
         {
-            <div class="d-flex flex-wrap p-3 pane">
-                @foreach (Item item in Globals.Items.Where(i => i.Type == "Item"))
-                {
-                    <GridCell Name=@item.Name
-                          IconUrl=@item.IconUrl
-                          OnClick=@(() => AddToLoadout(item)) />
-                }
-            </div>
+            <MudExpansionPanel Text="Items">
+                <MudGrid Spacing="1" Justify="Justify.FlexStart">
+                    @foreach (Item item in Globals.Items.Where(i => i.Type == "Item"))
+                    {
+                        <MudItem Class="cursor-hover" @onclick=@(() => AddToLoadout(item))>
+                            <MudCard Style="width: 128px" Elevation="3">
+                                <MudCardMedia Image=@item.IconUrl Height="128" Class="rounded-top-lg" />
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body2" Align="Align.Center">@item.Name</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudExpansionPanel>
         }
     };
 
@@ -125,7 +163,7 @@
         _loadout.Add(item);
         _items.Remove(item);
 
-        StatSheet.Update();
+        //StatSheet.Update();
     }
 
     public void RemoveFromLoadout(Item item)

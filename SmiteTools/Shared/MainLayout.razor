@@ -1,17 +1,61 @@
-﻿@inherits LayoutComponentBase
+﻿@using MudBlazor
+@using MudBlazor.ThemeManager;
+@inherits LayoutComponentBase
 
-<div class="light-theme page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider Theme="_themeManager.Theme" IsDarkMode="true" />
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<MudLayout>
+    <MudAppBar Elevation="_themeManager.AppBarElevation" Color="Color.Dark">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick=@(() => ToggleNavDrawer()) />
+        <MudSpacer />
+    </MudAppBar>
 
-        <article class="content px-4">
+    <MudDrawer @bind-Open="@_navOpen" Elevation="1" Variant="@DrawerVariant.Persistent" Color="Color.Default">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6">Smite Tools</MudText>
+        </MudDrawerHeader>
+        <MudNavMenu Color="Color.Default">
+            <MudNavLink Href="/" Icon="@Icons.Material.Rounded.GridView" IconColor="Color.Inherit">Builder</MudNavLink>
+            <MudNavLink Href="/randomizer" Icon="@Icons.Material.Filled.Cached" IconColor="Color.Inherit">Randomizer</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    
+    <MudMainContent>
+        <MudContainer Class="mt-6">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="_themeManager.DrawerClipMode" Elevation="_themeManager.DrawerElevation"></MudDrawer>
+    <MudThemeManagerButton OnClick="@((e) => OpenThemeManager(true))" />
+    <MudThemeManager Open="_themeManagerOpen" OpenChanged="OpenThemeManager" Theme="_themeManager" ThemeChanged="UpdateTheme" />
+</MudLayout>
+
+@code {
+    private ThemeManagerTheme _themeManager = new ThemeManagerTheme();
+    public bool _themeManagerOpen = false;
+
+    private bool _drawerOpen = false;
+    private bool _navOpen = true;
+
+    void ToggleNavDrawer()
+    {
+        _navOpen = !_navOpen;
+    }
+
+    void OpenThemeManager(bool value)
+    {
+        _themeManagerOpen = value;
+    }
+
+    void UpdateTheme(ThemeManagerTheme value)
+    {
+        _themeManager = value;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        StateHasChanged();
+    }
+}
