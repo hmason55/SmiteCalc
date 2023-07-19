@@ -3,37 +3,24 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Smite Tools</title>
     <base href="/SmiteTools/" />
-    <link href="fontawesome-free-6.3.0-web/css/fontawesome.css" rel="stylesheet">
-    <link href="fontawesome-free-6.3.0-web/css/solid.css" rel="stylesheet">
-    <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
-    <script src="fontawesome-free-6.3.0-web/js/fontawesome.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link href="_content/MudBlazor.ThemeManager/MudBlazorThemeManager.css" rel="stylesheet" />
     <link href="SmiteTools.styles.css" rel="stylesheet" />
 </head>
 
 <body>
 
     <div id="app">
-        <div class="row vh-100 m-0 p-0 bg-dark">
-            <div class="col my-auto align-items-center">
-                <div class="row justify-content-center">
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: 0s" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .08s" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .15s" role="status"><span class="sr-only">Loading...</span></div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .08s" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .15s" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .23s" role="status"><span class="sr-only">Loading...</span></div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .15s" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .23s" role="status"><span class="sr-only">Loading...</span></div>
-                    <div class="spinner-grow text-light m-3" style="width: 3rem; height: 3rem; animation-delay: .3s" role="status"><span class="sr-only">Loading...</span></div>
-                </div>
-            </div>
+        <div class="mud-progress-circular mud-info-text mud-progress-large mud-progress-indeterminate" role="progressbar" aria-valuenow="0">
+            <svg class="mud-progress-circular-svg" viewBox="22 22 44 44">
+                <circle class="mud-progress-circular-circle mud-progress-indeterminate" cx="44" cy="44" r="20" fill="none" stroke-width="3"></circle>
+            </svg>
         </div>
     </div>
 
@@ -42,8 +29,9 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
-    <script src="bootstrap-5.3.0-alpha1-dist/js/bootstrap.min.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 </body>
 
 </html>
